@@ -1,0 +1,81 @@
+<project name="IIB-CI-BOOTSTRAP" default="bootstrap" basedir="../..">
+  <description>IIB Continuous Integration Demo (bootstrap script)</description>
+
+  <target name="bootstrap_init">
+    <tstamp />
+    <property environment="env" />
+    <property name="path.buildscript" value="DevOps_Demo/Buildscript" />
+    <property name="build.main" value="${basedir}/${path.buildscript}/build.xml" />
+    <property file="${basedir}/${path.buildscript}/build_${env.SETUP}.properties" />
+    <exec executable="id" />
+<echo message="SETUP : ${env.SETUP}"/>
+
+  </target>
+
+  <target name="bootstrap" depends="bootstrap_init">
+    <property name="wkspc.owner" value="${user.iib}:${group.iib}" />
+    <property name="wkspc.mode" value="go+rw" />
+
+    <!-- update workspace permissions -->
+    <!-- https://wiki.jenkins-ci.org/display/JENKINS/Building+a+software+project#Buildingasoftwareproject-JenkinsSetEnvironmentVariables -->
+    <exec executable="sudo">
+      <arg value="-n" />
+      <arg value="sh" />
+      <arg value="-c" />
+      <arg value="chown -R ${wkspc.owner} ${basedir}; chmod -R ${wkspc.mode} ${basedir}" />
+    </exec>
+
+    <!-- call Ant with build_main.xml as another user in a new shell -->
+    <!-- https://ant.apache.org/manual/running.html -->
+    <fileset dir="${ant.library.dir}" id="ant.jar.files">
+      <include name="**/*.jar"/>
+    </fileset>
+    <pathconvert pathsep=":" property="jars.ant" refid="ant.jar.files"/>
+    <property name="ext.dirs" value="${path.iib}/common/jdk/lib:${path.iib}/common/jdk/jre/lib/ext" />
+    <property name="args.jvm" value="-cp $CLASSPATH:$MQSI_JREPATH/${jars.ant} -Djava.ext.dirs=${ext.dirs} -Dant.home=${ant.home} ${ant.main.class}" />
+    <property name="args.ant" value="-f ${build.main} ${buildtarget} -DENVIRONMENT=${env.SETUP}" />
+    <property name="init.env" value=". ${iib.mqsiprofile}" />
+
+    <echo message="ext.dirs: ${ext.dirs}"/>
+    <echo message="args.jvm: ${args.jvm}"/>
+    <echo message="args.ant: ${args.ant}"/>
+    <echo message="init.env: ${init.env}"/>
+    <echo message="MQSI_JREPATH: ${MQSI_JREPATH}"/>
+    <echo message="buildtarget: ${buildtarget}"/>
+
+
+    <exec executable="sudo" failonerror="true">
+      <arg value="-n" />
+      <arg value="-u" />
+      <arg value="${user.iib}" />
+      <arg value="sh" />
+      <arg value="--login" />
+      <arg value="-c" />
+      <arg value="${init.env}; $MQSI_JREPATH/bin/java ${args.jvm} ${args.ant}" />
+    </exec>
+  </target>
+	
+  <target name="mqsicreatebar">
+	  <antcall target="bootstrap">
+	    <param name="buildtarget" value="mqsicreatebar.buildbar"/>
+	  </antcall>
+</target>
+	
+	  <target name="mqsideploybar">
+		  <antcall target="bootstrap">
+		    <param name="buildtarget" value="mqsideploy.deploybar"/>
+		  </antcall>
+	</target>	
+	
+	 <target name="mqsioverridebar">
+			  <antcall target="bootstrap">
+			    <param name="buildtarget" value="mqsioverride.overridebar"/>
+			  </antcall>
+		</target>	
+	
+	 <target name="mqsiremotedeploy">
+			  <antcall target="bootstrap">
+			    <param name="buildtarget" value="mqsideploy.remotedeploybar"/>
+			  </antcall>
+		</target>
+</project>

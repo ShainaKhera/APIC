@@ -1,0 +1,105 @@
+<project name="GetCityNamesJunit" default="run" basedir="../.." xmlns:aether="antlib:org.eclipse.aether.ant">
+	
+	<property name="src.dir" value="${basedir}/GetCityNamesJunit/src"/>
+	<property name="build.dir" value="${basedir}/GetCityNamesJunit/build"/>
+	<property name="lib.dir" value="${basedir}/GetCityNamesJunit/lib"/>
+	<property name="classes.dir" value="${build.dir}/classes"/>
+	<property name="jar.dir" value="${build.dir}"/>
+    <property name="path.buildscript" value="GetCityNamesJunit/Buildscript" />
+
+	<import file="${basedir}/${path.buildscript}/nexus-tasks/aether-ant-tasks.xml" />
+	<aether:pom file="${basedir}/${path.buildscript}/pom.xml" id="pom" />
+
+	<aether:artifacts id="attached">
+	    <aether:artifact file="${build.dir}/${ant.project.name}.jar" />
+	</aether:artifacts>
+	
+	<target name="init">
+	    <tstamp />
+		<echo message="SETUP : ${ENVIRONMENT}"/>
+	    <property file="${basedir}/${path.buildscript}/build_${ENVIRONMENT}.properties" />
+	</target>
+	
+	<target name="resolverepo" description="--> initialize project"> 
+	    <aether:resolve>
+	      <files dir="${lib.dir}" layout="{artifactId}-{version}.{extension}" />
+	    </aether:resolve>
+	</target>
+	
+	<path id="classpath">
+		<fileset dir="${lib.dir}" includes="*.*"/>
+	</path>
+	<property name="main-class"  value="acit.junit.helper.TestRunner"/>
+
+	<target name="run" description="">
+  		<antcall target="clean" />
+  		<antcall target="prepare" />
+  		<antcall target="compile" />
+  		<antcall target="jar" />
+   		<antcall target="execute"/>
+    	<antcall target="main"/>  
+	</target>
+
+	<target name="clean" description="--> clean the project">
+	    <delete includeemptydirs="true" quiet="true">
+	      <fileset dir="${build.dir}" />
+	      <fileset dir="${lib.dir}"/>
+	      <fileset dir="${classes.dir}"/>
+	      <fileset dir="${jar.dir}"/>
+	    </delete>
+	  </target>
+	
+	
+	<target name="prepare" depends="clean">
+		<mkdir dir="${build.dir}"/>
+		<mkdir dir="${classes.dir}"/>
+		<mkdir dir="${jar.dir}"/>
+	</target>
+
+	<target name="compile" depends="prepare,resolverepo">  
+		<javac srcdir="${src.dir}" destdir="${classes.dir}" classpathRef="classpath"/>  
+	</target>
+
+	<target name="jar" depends="compile">  
+		<jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="${classes.dir}">
+			<manifest>
+		 		<attribute name="Main-Class" value="${main-class}"/>
+		  	</manifest>
+	  	</jar>
+	</target>
+
+	<target name="execute" depends="jar">	 
+	  	<java fork="true" classname="${main-class}">
+    		<classpath>
+        		<path refid="classpath"/>
+       	 		<path location="${jar.dir}/${ant.project.name}.jar"/>
+    		</classpath>
+		</java>
+	</target>  
+	
+	<target name="install" depends="execute" description="--> install to local Maven repository">
+	    <aether:install pomref="pom" artifactsref="attached" />
+	  </target>
+
+	  <target name="deploy" depends="install" description="--> deploy to remote Maven repository">
+	    <aether:deploy pomref="pom" artifactsref="attached">
+	      <remoterepo refid="dev"/>
+	  </aether:deploy>
+	  </target>
+
+	<target name="junit" depends="main">	                
+	                <mkdir dir="${basedir}/junitreports"/>
+	                <junit haltonfailure="false" printsummary="true">
+	                                <classpath>
+	                                        <path refid="classpath"/>
+	                                        <pathelement location="${build.dir}/GetCityNamesJunit.jar"/>
+	                                </classpath>
+	                 <test name="acit.junit.test.DPDevOps_TestCases"   todir="${basedir}/junitreports"></test>                         
+	                        <formatter type="xml"/>
+	                </junit>
+	          </target>
+	
+	<target name="main" depends="execute">
+		<echo message="main target completed.." />
+	</target>
+</project>

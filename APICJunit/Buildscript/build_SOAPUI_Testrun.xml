@@ -1,0 +1,49 @@
+<project name="soapui-test" default="testreport" basedir="../..">
+  <description>SOAP UI Testcase execution Scripts</description>
+
+<property environment="env"/>
+<property name="path.buildscript" value="DevOps_Demo/Buildscript" />
+<property name="soapui.report.dir" value="${basedir}/soapui_test_reports"/>
+<property name="soapui.project" value="${basedir}/${path.buildscript}/DevOps-Demo-App-soapui-project.xml"/>
+
+
+<target name="dir.check">
+    <condition property="dir.exists">
+      <available file="${soapui.report.dir}" type="dir"/>
+    </condition>
+  </target>
+
+<target name="create-report-dir" depends="dir.check" unless="dir.exists">
+    <echo>${soapui.report.dir} missing"</echo>
+    <mkdir dir="${soapui.report.dir}"/> 
+  </target>
+
+	<target name="soapui" depends="create-report-dir">
+
+
+        <exec executable="/opt/SoapUI-5.2.1/bin/testrunner.sh"
+              failonerror="yes"
+              failifexecutionfails="yes">    
+               <arg value="-rajf"/>
+               <arg path="${soapui.report.dir}"/>
+               <arg path="${soapui.project}"/>
+        </exec>
+	   
+	</target>
+	
+	
+
+	<target name = "testreport" depends ="soapui"> 
+	  <junitreport todir="${soapui.report.dir}"> 
+	     <fileset dir="${soapui.report.dir}"> 
+	          <include name="TEST-*.xml"/> 
+	     </fileset> 
+	     <report todir="${soapui.report.dir}/HTML" 
+	             styledir="/opt/apache-ant-1.9.7/etc" 
+	             format="noframes"> 
+	     </report> 
+	  </junitreport> 
+	</target> 
+
+</project>
+
