@@ -1,11 +1,1 @@
-<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:exam="http://Example.org">
-   <soapenv:Header/>
-   <soapenv:Body>
-      <exam:Subtract>
-         <!--Optional:-->
-         <exam:a>a</exam:a>
-         <!--Optional:-->
-         <exam:b>10</exam:b>
-      </exam:Subtract>
-   </soapenv:Body>
-</soapenv:Envelope>
+<BMICalculator><candidate><firstname>Kevin</firstname><lastname>Petters</lastname><age>25</age><gender>male</gender><date>23-03-2017</date><weight><kg>50</kg></weight><height><feet>5</feet><inches>0</inches></height></candidate></BMICalculator>

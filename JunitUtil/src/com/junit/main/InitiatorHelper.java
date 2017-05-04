@@ -108,6 +108,7 @@ public class InitiatorHelper {
 		propertiesLoader = PropertiesLoader.getInstance();
 		environment = propertiesLoader.loadProperties(configFileLocation);
 		String soapURL = environment.getUrl();
+		String clientId = environment.getClientId();
 		
 		
 		SOAPConnectionFactory soapConnectionFactory;
@@ -135,7 +136,10 @@ public class InitiatorHelper {
 					expectedFilePath = expectedResultLocation + "Expected_" + requestFileName;
        
 					String request_message = fileOperator.fileReader(fileEntry.getPath());
-        
+				
+					
+					
+					request_message.addHeader("X-IBM-Client-Id",clientId);
 					//convert request msg to soap message
 					InputStream is = new ByteArrayInputStream(request_message.getBytes());
 					SOAPMessage request = MessageFactory.newInstance().createMessage(null,is);

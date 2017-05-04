@@ -64,6 +64,7 @@ public class PropertiesLoader {
 		environment.setMessage(prop.getProperty("message"));
 		environment.setUrl(prop.getProperty("url"));
 		environment.setProtocol(prop.getProperty("protocol"));
+		environment.setClientId(prop.getProperty("clientId")); 
 		return environment;
 	}
 }

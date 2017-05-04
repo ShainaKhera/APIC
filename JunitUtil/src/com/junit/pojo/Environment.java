@@ -19,6 +19,7 @@ private String out_queue;
 private String message;
 private String url;
 public String protocol;
+public String clientId;
 /**
  * @param hostName the hostName to set
  */
@@ -42,6 +43,9 @@ public void setChannel(String channel) {
  */
 public void setPort(String port) {
 	this.port = port;
+}
+public void setClientId(String clientId) {
+	this.clientId = clientId;
 }
 /**
  * @param user the user to set
@@ -150,5 +154,8 @@ public String getUrl() {
 }
 public String getProtocol() {
 	return protocol;
+}
+public String getClientId() {
+	return clientId;
 }
 }
