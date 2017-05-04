@@ -1,8 +1,0 @@
-<soapenv:Envelope xmlns:exam="http://Example.org" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:dpquery="http://www.datapower.com/param/query" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
-   <soapenv:Header/>
-   <soapenv:Body>
-      <exam:SubtractResponse>
-         <exam:result>0</exam:result>
-      </exam:SubtractResponse>
-   </soapenv:Body>
-</soapenv:Envelope>
