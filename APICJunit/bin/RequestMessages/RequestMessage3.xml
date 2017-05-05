@@ -1,0 +1,11 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:exam="http://Example.org">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <exam:Subtract>
+         <!--Optional:-->
+         <exam:a>a</exam:a>
+         <!--Optional:-->
+         <exam:b>10</exam:b>
+      </exam:Subtract>
+   </soapenv:Body>
+</soapenv:Envelope>
