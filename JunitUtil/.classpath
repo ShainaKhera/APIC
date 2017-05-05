@@ -6,7 +6,7 @@
 	<classpathentry kind="lib" path="resources/xmlunit.jar"/>
 	<classpathentry kind="lib" path="resources/junit-4.3.jar"/>
 	<classpathentry kind="lib" path="resources/connector.jar"/>
-	<classpathentry kind="lib" path="C:/JunitWorkspace/exceljar/poi-ooxml-3.11.jar"/>
 	<classpathentry kind="lib" path="resources/jxl.jar"/>
+	<classpathentry kind="lib" path="resources/poi-ooxml-3.11.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

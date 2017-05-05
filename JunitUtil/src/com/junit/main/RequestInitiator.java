@@ -43,8 +43,11 @@ public static void main(String[] args) {
 			
 			switch(strProtocol) {
 				case "MQ" : helper.executeMQRequest(configFileLocation, requestLocation, expectedResultLocation);
+		
 							break;
+										
 				case "SOAP" : helper.executeSOAPRequest(configFileLocation, requestLocation, expectedResultLocation);
+	
 							break;
 				default: System.out.println("UnExpected Protocol");
 			}			

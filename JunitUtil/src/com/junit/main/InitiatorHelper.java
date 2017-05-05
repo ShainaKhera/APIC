@@ -108,8 +108,9 @@ public class InitiatorHelper {
 		propertiesLoader = PropertiesLoader.getInstance();
 		environment = propertiesLoader.loadProperties(configFileLocation);
 		String soapURL = environment.getUrl();
+	
 		String clientId = environment.getClientId();
-		
+
 		
 		SOAPConnectionFactory soapConnectionFactory;
 		SOAPConnection soapConnection;
@@ -133,17 +134,14 @@ public class InitiatorHelper {
 				} else {
 					
 					requestFileName = fileEntry.getName();
-					expectedFilePath = expectedResultLocation + "Expected_" + requestFileName;
-       
+					expectedFilePath = expectedResultLocation + "Expected_" + requestFileName;       
 					String request_message = fileOperator.fileReader(fileEntry.getPath());
-				
-					
-					
-					request_message.addHeader("X-IBM-Client-Id",clientId);
+		
 					//convert request msg to soap message
 					InputStream is = new ByteArrayInputStream(request_message.getBytes());
 					SOAPMessage request = MessageFactory.newInstance().createMessage(null,is);
- 
+					// Add SOAP Header 
+					request.getMimeHeaders().addHeader("X-IBM-Client-Id",clientId);
 					// Send SOAP Message to SOAP Server
 					SOAPMessage soapResponse = soapConnection.call(request, soapURL);
 					System.out.println("Request sent to the flow, Please wait for the output..." +request_message);

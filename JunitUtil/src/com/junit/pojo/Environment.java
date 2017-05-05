@@ -44,9 +44,6 @@ public void setChannel(String channel) {
 public void setPort(String port) {
 	this.port = port;
 }
-public void setClientId(String clientId) {
-	this.clientId = clientId;
-}
 /**
  * @param user the user to set
  */
@@ -91,6 +88,10 @@ public void setMessage(String message) {
  */
 public void setUrl(String url) {
 	this.url = url;
+}
+
+public void setClientId(String clientId) {
+	this.clientId = clientId;
 }
 /**
  * @return the hostName
@@ -158,4 +159,5 @@ public String getProtocol() {
 public String getClientId() {
 	return clientId;
 }
+
 }
