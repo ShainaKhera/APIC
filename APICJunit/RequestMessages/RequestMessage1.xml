@@ -8,4 +8,4 @@
          <exam:b>10</exam:b>
       </exam:Subtract>
    </soapenv:Body>
-</soapenv:Envelope><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:web="http://www.webserviceX.NET"><SOAP-ENV:Header/><SOAP-ENV:Body><web:GetCitiesByCountry><web:CountryName>India</web:CountryName></web:GetCitiesByCountry></SOAP-ENV:Body></SOAP-ENV:Envelope>
+</soapenv:Envelope>

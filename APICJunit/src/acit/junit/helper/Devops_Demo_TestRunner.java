@@ -224,7 +224,8 @@ public class Devops_Demo_TestRunner {
         SOAPMessage soapMessage = factory.createMessage(new MimeHeaders(), new ByteArrayInputStream(message.getBytes(Charset.forName("UTF-8"))));
         
         MimeHeaders headers = soapMessage.getMimeHeaders();
-        headers.addHeader("SOAPAction",serverURI + "/GetCitiesByCountry");
+        headers.addHeader("X-IBM-Client-Id","5d6e07a1-48a8-4d11-81ac-50f43acb7a57");
+    	//request.getMimeHeaders().addHeader("X-IBM-Client-Id",clientId);
 
         soapMessage.saveChanges();
         /* Print the request message */
@@ -232,7 +233,6 @@ public class Devops_Demo_TestRunner {
         //soapMessage.writeTo(System.out);
         
         //System.out.println();
-
         return soapMessage;
     }
 

@@ -1,8 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?><env:Envelope xmlns:env="http://schemas.xmlsoap.org/soap/envelope/">
-<env:Body>
-<env:Fault>
-<faultcode>env:Client</faultcode>
-<faultstring>Internal Error</faultstring>
-</env:Fault>
-</env:Body>
-</env:Envelope>
+<?xml version="1.0" encoding="UTF-8"?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:exam="http://Example.org" xmlns:dpquery="http://www.datapower.com/param/query" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><exam:SubtractResponse><exam:result>0</exam:result></exam:SubtractResponse></soapenv:Body></soapenv:Envelope>
